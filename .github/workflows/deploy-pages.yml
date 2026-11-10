@@ -1,0 +1,80 @@
+# Публикация статического сайта (каталог app/) на GitHub Pages.
+# Триггеры: push в main или ручной запуск (workflow_dispatch).
+#
+# Источники версий actions (проверено по официальной документации):
+#   actions/checkout             @v6 — https://github.com/actions/checkout/releases
+#   actions/setup-node           @v6 — https://github.com/actions/setup-node/releases
+#   actions/configure-pages      @v5 — https://github.com/actions/configure-pages/releases
+#   actions/upload-pages-artifact@v4 — https://github.com/actions/upload-pages-artifact/releases
+#   actions/deploy-pages         @v4 — https://github.com/actions/deploy-pages/releases
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Минимально необходимые права для GITHUB_TOKEN (остальные — none по умолчанию)
+permissions:
+  contents: read
+
+# Одновременная деплоить Pages дважды нельзя: новая сборка отменяет незавершённую
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build production bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies (npm ci)
+        run: npm ci
+
+      - name: Production build
+        run: npm run build
+
+      - name: Verify required files
+        run: |
+          set -euo pipefail
+          for file in app/index.html app/dist/bundle.js app/dist/styles.css; do
+            if [ ! -f "$file" ]; then
+              echo "::error::Required file is missing: $file"
+              exit 1
+            fi
+            echo "OK: $file"
+          done
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: app
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
