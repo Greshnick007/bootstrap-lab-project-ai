@@ -1,0 +1,66 @@
+// Selective Bootstrap 5.3 build: containers + grid ONLY.
+// No full bootstrap.scss, no utilities, no components, no Bootstrap JS.
+// Import order follows https://getbootstrap.com/docs/5.3/customize/sass/ ("Option B").
+
+// 1. Functions must come first (color manipulation, math, etc.)
+@import "bootstrap/scss/functions";
+
+// 2. Variable overrides go here (after functions, before variables)
+// $grid-gutter-width: 1.5rem;
+
+// 3. Required variables (including color-mode variables)
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+
+// 4. Map overrides go here (optional)
+
+// 5. Required remainder
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+// _root.scss is required: :root holds --bs-gutter-x / --bs-gutter-y used by .row
+@import "bootstrap/scss/root";
+
+// 6. Optional parts — only what this project needs: containers and grid
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+
+// ---------------------------------------------------------------
+// Own page styles are allowed below
+// ---------------------------------------------------------------
+
+// Minimal own reset (we intentionally do not import Bootstrap's reboot)
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+}
+
+// Demo box to visualize grid columns
+.demo-box {
+  padding: 1rem;
+  border: 1px dashed #0d6efd;
+  border-radius: 0.375rem;
+  background-color: rgba(13, 110, 253, 0.08);
+  text-align: center;
+}
+
+.demo-header {
+  margin-block: 2rem 1.5rem;
+  text-align: center;
+}
+
+.demo-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.demo-header p {
+  color: #6c757d;
+}

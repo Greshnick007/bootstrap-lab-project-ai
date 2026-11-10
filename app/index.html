@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap 5.3 — Grid & Containers (webpack selective build)</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./dist/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="demo-header">
+        <h1>Bootstrap 5.3 — Grid & Containers</h1>
+        <p>Selective Sass build: only containers and grid. No utilities, components or Bootstrap JavaScript.</p>
+      </header>
+
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div class="demo-box">.col-12 .col-md-6</div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="demo-box">.col-12 .col-md-6</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="demo-box">.col-12 .col-md-4</div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="demo-box">.col-12 .col-md-4</div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="demo-box">.col-12 .col-md-4</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6 col-lg-3">
+          <div class="demo-box">.col-6 .col-lg-3</div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="demo-box">.col-6 .col-lg-3</div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="demo-box">.col-6 .col-lg-3</div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="demo-box">.col-6 .col-lg-3</div>
+        </div>
+      </div>
+    </main>
+
+    <script src="./dist/bundle.js"></script>
+  </body>
+</html>

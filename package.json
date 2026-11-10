@@ -1,0 +1,22 @@
+{
+  "name": "bootstrap-project-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Selective Bootstrap 5.3 (grid + containers only) build with webpack",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "bootstrap": "~5.3.8"
+  },
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "mini-css-extract-plugin": "^2.9.2",
+    "sass": "^1.93.2",
+    "sass-loader": "^16.0.5",
+    "webpack": "^5.99.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.2.2"
+  }
+}
