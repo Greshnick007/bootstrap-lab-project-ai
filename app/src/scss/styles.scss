@@ -8,6 +8,30 @@
 // 2. Variable overrides go here (after functions, before variables)
 // $grid-gutter-width: 1.5rem;
 
+// --- Accordion overrides (FAQ design, Pixso node 1:61) ---
+$accordion-border-radius:          12px;                    // card radius
+$accordion-border-width:           1px;                     // card border
+$accordion-border-color:           rgba(254, 232, 1, .22);  // yellow hairline
+$accordion-bg:                     #1c1a1a;                 // item background
+$accordion-color:                  rgba(160, 160, 160, 1);  // answer text (#A0A0A0)
+$accordion-button-padding-y:       8px;                     // collapsed item = 8 + 66 + 8 = 82px
+$accordion-button-padding-x:       24px;
+$accordion-button-color:           #fff;                    // collapsed question
+$accordion-button-bg:              transparent;             // collapsed bg = custom gradient (own CSS below)
+$accordion-button-active-bg:       #1c1a1a;                 // expanded question bg
+$accordion-button-active-color:    #fff;                    // expanded question color
+$accordion-button-focus-box-shadow: none;                   // no default focus ring
+$accordion-icon-width:             32px;                    // plus icon 32x32
+$accordion-icon-color:             #fff;
+$accordion-icon-active-color:      #fff;
+$accordion-icon-transform:         none;                    // icon is never rotated
+$accordion-body-padding-x:         24px;
+$accordion-body-padding-y:         8px;                     // top gap; bottom set by own CSS (24px)
+
+// Plus / minus icons (white, drawn to match the design's 32px glyph)
+$accordion-button-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path fill='none' stroke='#fff' stroke-width='2.5' stroke-linecap='round' d='M16 6v20M6 16h20'/></svg>");
+$accordion-button-active-icon: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path fill='none' stroke='#fff' stroke-width='2.5' stroke-linecap='round' d='M6 16h20'/></svg>");
+
 // 3. Required variables (including color-mode variables)
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
@@ -20,9 +44,14 @@
 // _root.scss is required: :root holds --bs-gutter-x / --bs-gutter-y used by .row
 @import "bootstrap/scss/root";
 
-// 6. Optional parts — only what this project needs: containers and grid
+// 6. Optional parts — only what this project needs: containers, grid and the accordion
 @import "bootstrap/scss/containers";
 @import "bootstrap/scss/grid";
+
+// Collapse mechanics for the accordion (.collapse, .collapse.show, .collapsing)
+@import "bootstrap/scss/transitions";
+// Accordion component
+@import "bootstrap/scss/accordion";
 
 // ---------------------------------------------------------------
 // Own page styles are allowed below
@@ -63,4 +92,71 @@ body {
 
 .demo-header p {
   color: #6c757d;
+}
+
+// ---------------------------------------------------------------
+// FAQ accordion (design: Pixso node 1:61)
+// Own CSS only for properties that have no SCSS variable in
+// Bootstrap 5.3 — typography, card separation, gradient bg, glow.
+// ---------------------------------------------------------------
+
+// Minimal resets normally provided by Bootstrap's reboot.
+// reboot is intentionally not imported (selective build stays intact).
+.accordion-button {
+  font-family: inherit; // <button> does not inherit font-family by default
+  cursor: pointer;      // provided by reboot's $enable-button-pointers
+}
+
+// Separate "cards" with a 16px gap (Bootstrap stacks items flush by default)
+.accordion {
+  display: grid;
+  row-gap: 16px;
+  max-width: 886px;
+  margin-inline: auto;
+}
+
+// Radius on every item (Bootstrap rounds only first/last), yellow glow
+.accordion-item {
+  border-radius: 12px;
+  box-shadow: 0 1px 12px rgba(255, 215, 0, 0.1);
+
+  > .accordion-header .accordion-button,
+  > .accordion-collapse {
+    border-radius: 10px; // inner radius = $accordion-border-radius - border-width
+  }
+}
+
+// Remove Bootstrap's inset hairline on the open button (design has none)
+.accordion-button:not(.collapsed) {
+  box-shadow: none;
+}
+
+// Question typography: 24px / 66px, medium
+.accordion-button {
+  font-size: 24px;
+  line-height: 66px;
+  font-weight: 500;
+}
+
+// Collapsed items: translucent gradient + backdrop blur from the design
+.accordion-button.collapsed {
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.0198),
+    rgba(255, 255, 255, 0.0594)
+  );
+  -webkit-backdrop-filter: blur(13.33px) saturate(1);
+  backdrop-filter: blur(13.33px) saturate(1);
+}
+
+// Answer typography: 20px / 36px, asymmetric bottom padding (design: 24px)
+.accordion-body {
+  font-size: 20px;
+  line-height: 36px;
+  padding-bottom: 24px;
+}
+
+// Section spacing inside the container
+.faq {
+  margin-block: 3rem 1.5rem;
 }

@@ -1,7 +1,9 @@
 // Styles are imported first so webpack compiles app/src/scss/styles.scss
-// (selective Bootstrap 5.3 grid + containers) into app/dist/styles.css.
+// (selective Bootstrap 5.3: grid + containers + accordion) into app/dist/styles.css.
 import "../scss/styles.scss";
 
-// NOTE: Bootstrap JavaScript is intentionally NOT imported here —
-// this project ships only the grid and containers CSS.
-console.log("bundle.js loaded: Bootstrap 5.3 grid-only build (no Bootstrap JS)");
+// Minimal Bootstrap JavaScript: only the Collapse plugin (no Popper needed).
+// Powers the FAQ accordion via data-bs-toggle="collapse".
+import "bootstrap/js/dist/collapse";
+
+console.log("bundle.js loaded: Bootstrap 5.3 selective build (grid + containers + accordion, Collapse JS)");
